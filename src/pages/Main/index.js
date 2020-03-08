@@ -42,17 +42,29 @@ export default class Main extends Component {
 
     const { newRepo, repositories } = this.state;
 
-    const response = await api.get(`/repos/${newRepo}`);
+    try {
+      const { newRepo } = this.state; // add repositories
+      if (newRepo === '') throw 'You cant add a blank space';
 
-    const data = {
-      name: response.data.full_name,
-    };
+      // const repoExists = repositories.find(r => r.name === repoExists)
 
-    this.setState({
-      repositories: [...repositories, data],
-      newRepo: '',
-      loading: false,
-    });
+      const response = await api.get(`/repos/${newRepo}`);
+      console.log('entreeei');
+
+      const data = {
+        name: response.data.full_name,
+      };
+
+      this.setState({
+        repositories: [...repositories, data],
+        newRepo: '',
+        // loading: false,
+      });
+    } catch (error) {
+      this.setState({ error: true });
+    } finally {
+      this.setState({ loading: false });
+    }
   };
 
   render() {
