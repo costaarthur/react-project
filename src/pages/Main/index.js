@@ -47,11 +47,12 @@ export default class Main extends Component {
 
       if (newRepo === '') throw 'Você precisa indicar um repositório';
 
-      const hasRepo = repositories.find(r => r.name === newRepo);
+      const repoExists = repositories.find(r => r.name === newRepo);
 
-      if (hasRepo) throw 'Repositório duplicado';
+      if (repoExists) throw 'Repositório já existe';
 
       const response = await api.get(`/repos/${newRepo}`);
+      console.log(response);
 
       const data = {
         name: response.data.full_name,
