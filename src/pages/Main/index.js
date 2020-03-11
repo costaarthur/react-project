@@ -64,7 +64,12 @@ export default class Main extends Component {
       });
     } catch (error) {
       this.setState({ error: true });
-      alert(`errou: ${error}`);
+      console.log(error.response.status);
+      if (error.response.status === 404) {
+        alert('Repositório inexistente.');
+      } else {
+        alert(`errou: ${error}`);
+      }
     } finally {
       this.setState({ loading: false });
     }

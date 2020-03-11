@@ -62,6 +62,7 @@ export default class Repository extends Component {
         <IssueList>
           {issues.map(issue => (
             <li key={String(issue.id)}>
+              {/* <li>{issue.state: open}</li> */}
               <img src={issue.user.avatar_url} alt={issue.user.login} />
               <div>
                 <strong>
