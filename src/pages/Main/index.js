@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import api from '../../services/api';
 
 import Container from '../../components/Container';
-import { Form, SubmitButton, List } from './styles';
+import { Form, SubmitButton, List, ShowError } from './styles';
 
 export default class Main extends Component {
   state = {
@@ -13,6 +13,7 @@ export default class Main extends Component {
     repositories: [],
     loading: false,
     error: null,
+    errorName: '',
   };
 
   // Carregar os dados do localStorage
@@ -52,7 +53,6 @@ export default class Main extends Component {
       if (repoExists) throw 'Repositório já existe';
 
       const response = await api.get(`/repos/${newRepo}`);
-      console.log(response);
 
       const data = {
         name: response.data.full_name,
@@ -63,10 +63,12 @@ export default class Main extends Component {
         newRepo: '',
       });
     } catch (error) {
-      this.setState({ error: true });
-      console.log(error.response.status);
+      this.setState({ error: true, errorName: error });
+      console.log(this.state.errorName);
+      // console.log(error.response.status);
       if (error.response.status === 404) {
         alert('Repositório inexistente.');
+        this.setState({ errorName: 'Repositório inexistente.' });
       } else {
         alert(`errou: ${error}`);
       }
@@ -84,7 +86,6 @@ export default class Main extends Component {
           <FaGithubAlt />
           Repositórios
         </h1>
-
         <Form onSubmit={this.handleSubmit} error={error}>
           <input
             type="text"
@@ -101,7 +102,10 @@ export default class Main extends Component {
               )}
           </SubmitButton>
         </Form>
-
+        <ShowError Error={error}>
+          {error === null ? 'Error' : error}
+          )} Repositório inexistente {this.state.errorName}
+        </ShowError>
         <List>
           {repositories.map(repository => (
             <li key={repository.name}>
