@@ -101,3 +101,42 @@ export const IssueList = styled.ul`
     }
   }
 `;
+
+export const OpenButton = styled.button.attrs(props => ({
+  type: 'submit',
+  // disabled: props.loading,
+}))`
+  background: #7159c1;
+  border: 0;
+  padding: 0 15px;
+  margin-left: 10px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20px;
+`;
+
+export const ClosedButton = styled.button`
+  background: #7159c1;
+  border: 0;
+  padding: 0 15px;
+  margin-left: 10px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20px;
+`;
+
+export const AllButton = styled.button`
+  background: #7159c1;
+  border: 0;
+  padding: 0 15px;
+  margin-left: 10px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20px;
+`;

@@ -70,7 +70,8 @@ export default class Main extends Component {
         alert('Repositório inexistente.');
         this.setState({ errorName: 'Repositório inexistente.' });
       } else {
-        alert(`errou: ${error}`);
+        // alert(`errou: ${error}`);
+        this.setState({ errorName: 'Teste' });
       }
     } finally {
       this.setState({ loading: false });
@@ -103,8 +104,8 @@ export default class Main extends Component {
           </SubmitButton>
         </Form>
         <ShowError Error={error}>
-          {error === null ? 'Error' : error}
-          )} Repositório inexistente {this.state.errorName}
+          {error === null ? 'Errorzão:' : console.log(this.state.errorName)}
+          {/* {this.state.errorName} */}
         </ShowError>
         <List>
           {repositories.map(repository => (

@@ -67,7 +67,7 @@ export const List = styled.ul`
   }
 `;
 
-export const ShowError = styled.h1`
+export const ShowError = styled.p`
   margin-top: 5px;
   border: 1px solid ${props => (props.error ? '#ff6b6b' : '#eee')};
 `;

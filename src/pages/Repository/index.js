@@ -4,7 +4,14 @@ import PropTypes from 'prop-types';
 import api from '../../services/api';
 
 import Container from '../../components/Container';
-import { Loading, Owner, IssueList } from './styles';
+import {
+  Loading,
+  Owner,
+  IssueList,
+  OpenButton,
+  ClosedButton,
+  AllButton,
+} from './styles';
 
 export default class Repository extends Component {
   static propTypes = {
@@ -19,10 +26,12 @@ export default class Repository extends Component {
     repository: {},
     issues: [],
     loading: true,
+    estado: 'closed',
   };
 
   async componentDidMount() {
     const { match } = this.props;
+    const { estado } = this.state;
 
     const repoName = decodeURIComponent(match.params.repository);
 
@@ -30,7 +39,7 @@ export default class Repository extends Component {
       api.get(`/repos/${repoName}`),
       api.get(`/repos/${repoName}/issues`, {
         params: {
-          state: 'open',
+          state: estado,
           per_page: 5,
         },
       }),
@@ -43,8 +52,14 @@ export default class Repository extends Component {
     });
   }
 
+  handleSubmit = async e => {
+    e.preventDefault();
+
+    this.setState({ estado: 'open' });
+  };
+
   render() {
-    const { repository, issues, loading } = this.state;
+    const { repository, issues, loading, estado } = this.state;
 
     if (loading) {
       return <Loading>Carregando</Loading>;
@@ -59,6 +74,13 @@ export default class Repository extends Component {
           <p>{repository.description}</p>
         </Owner>
 
+        <OpenButton onSubmit={this.handleSubmit}>Open</OpenButton>
+        <ClosedButton>Closed</ClosedButton>
+        <AllButton>All</AllButton>
+        {/* <input className="Open" type="button" value="Open" />
+        <input className="Closed" type="button" value="Closed" />
+        <input className="All" type="button" value="All" /> */}
+        {/* <SubmitButton loading={loading} /> */}
         <IssueList>
           {issues.map(issue => (
             <li key={String(issue.id)}>
@@ -72,6 +94,7 @@ export default class Repository extends Component {
                   ))}
                 </strong>
                 <p>{issue.user.login}</p>
+                <p>{issue.state}</p>
               </div>
             </li>
           ))}
