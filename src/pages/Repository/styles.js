@@ -156,9 +156,17 @@ export const AllButton = styled.button.attrs({
 
 export const Pages = styled.div`
   margin-top: 30px;
-  /* background: #7159c1; */
-  color: #7159c1;
-  justify-content: space-between;
-  flex-direction: row;
-  align-items: center;
+
+  button {
+    flex-direction: row;
+    /* display: flex; */
+    justify-content: space-between;
+    color: #7159c1;
+    align-items: center;
+    /* background: black; */
+    /* list-style-image: none; */
+    background-color: white;
+    border: none;
+    cursor: pointer;
+  }
 `;

@@ -28,7 +28,8 @@ export default class Repository extends Component {
     repository: {},
     issues: [],
     loading: true,
-    estado: 'closed',
+    estado: 'open',
+    page: 2,
   };
 
   async componentDidMount() {
@@ -39,7 +40,7 @@ export default class Repository extends Component {
 
     const [repository, issues] = await Promise.all([
       api.get(`/repos/${repoName}`),
-      api.get(`/repos/${repoName}/issues`, {
+      api.get(`/repos/${repoName}/issues?page={page}`, {
         params: {
           state: estado,
           per_page: 5,
@@ -64,6 +65,10 @@ export default class Repository extends Component {
   handleInputChange = e => {
     this.setState({ estado: 'open' });
   };
+
+  prevPage = () => { };
+
+  nextPage = () => { };
 
   render() {
     const { repository, issues, loading, estado } = this.state;
@@ -107,8 +112,12 @@ export default class Repository extends Component {
           ))}
         </IssueList>
         <Pages>
-          <FaArrowLeft size={14} />
-          <FaArrowRight size={14} />
+          <button>
+            <FaArrowLeft size={22} onClick={this.prevPage} />
+          </button>
+          <button>
+            <FaArrowRight size={22} onClick={this.nextPage} />
+          </button>
         </Pages>
       </Container>
     );
