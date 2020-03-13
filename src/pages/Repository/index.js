@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { FaArrowRight, FaArrowLeft } from 'react-icons/fa';
 import api from '../../services/api';
 
 import Container from '../../components/Container';
@@ -11,6 +12,7 @@ import {
   OpenButton,
   ClosedButton,
   AllButton,
+  Pages,
 } from './styles';
 
 export default class Repository extends Component {
@@ -54,7 +56,12 @@ export default class Repository extends Component {
 
   handleSubmit = async e => {
     e.preventDefault();
+    console.log('oi');
 
+    this.setState({ estado: 'open' });
+  };
+
+  handleInputChange = e => {
     this.setState({ estado: 'open' });
   };
 
@@ -99,6 +106,10 @@ export default class Repository extends Component {
             </li>
           ))}
         </IssueList>
+        <Pages>
+          <FaArrowLeft size={14} />
+          <FaArrowRight size={14} />
+        </Pages>
       </Container>
     );
   }

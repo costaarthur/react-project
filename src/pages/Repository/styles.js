@@ -102,14 +102,17 @@ export const IssueList = styled.ul`
   }
 `;
 
-export const OpenButton = styled.button.attrs(props => ({
+export const OpenButton = styled.button.attrs({
   type: 'submit',
   // disabled: props.loading,
-}))`
+})`
   background: #7159c1;
+  color: #fff;
   border: 0;
   padding: 0 15px;
   margin-left: 10px;
+  margin-bottom: 5px;
+  margin-top: 50px;
   border-radius: 4px;
   display: flex;
   justify-content: center;
@@ -117,11 +120,16 @@ export const OpenButton = styled.button.attrs(props => ({
   height: 20px;
 `;
 
-export const ClosedButton = styled.button`
+export const ClosedButton = styled.button.attrs({
+  type: 'submit',
+  // disabled: props.loading,
+})`
   background: #7159c1;
+  color: #fff;
   border: 0;
   padding: 0 15px;
   margin-left: 10px;
+  margin-bottom: 5px;
   border-radius: 4px;
   display: flex;
   justify-content: center;
@@ -129,14 +137,28 @@ export const ClosedButton = styled.button`
   height: 20px;
 `;
 
-export const AllButton = styled.button`
+export const AllButton = styled.button.attrs({
+  type: 'submit',
+  // disabled: props.loading,
+})`
   background: #7159c1;
+  color: #fff;
   border: 0;
   padding: 0 15px;
   margin-left: 10px;
+  margin-bottom: 5px;
   border-radius: 4px;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 20px;
+`;
+
+export const Pages = styled.div`
+  margin-top: 30px;
+  /* background: #7159c1; */
+  color: #7159c1;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
 `;
