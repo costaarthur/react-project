@@ -118,6 +118,10 @@ export const OpenButton = styled.button.attrs({
   justify-content: center;
   align-items: center;
   height: 20px;
+
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 
 export const ClosedButton = styled.button.attrs({
@@ -135,6 +139,10 @@ export const ClosedButton = styled.button.attrs({
   justify-content: center;
   align-items: center;
   height: 20px;
+
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 
 export const AllButton = styled.button.attrs({
@@ -152,6 +160,10 @@ export const AllButton = styled.button.attrs({
   justify-content: center;
   align-items: center;
   height: 20px;
+
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 
 export const Pages = styled.div`
@@ -168,5 +180,9 @@ export const Pages = styled.div`
     background-color: white;
     border: none;
     cursor: pointer;
+
+    &:hover {
+      opacity: 0.7;
+    }
   }
 `;

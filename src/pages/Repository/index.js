@@ -28,7 +28,7 @@ export default class Repository extends Component {
     repository: {},
     issues: [],
     loading: true,
-    estado: 'open',
+    estado: 'closed',
     page: 2,
   };
 
@@ -55,20 +55,25 @@ export default class Repository extends Component {
     });
   }
 
-  handleSubmit = async e => {
-    e.preventDefault();
-    console.log('oi');
-
-    this.setState({ estado: 'open' });
-  };
-
-  handleInputChange = e => {
-    this.setState({ estado: 'open' });
-  };
-
+  // //  change pages /////
   prevPage = () => { };
 
-  nextPage = () => { };
+  nextPage = () => {
+    alert('oi');
+  };
+
+  // /// set state (open/closed/all) /////
+  setOpen = () => {
+    this.setState({ estado: 'open' });
+  };
+
+  setClosed = () => {
+    this.setState({ estado: 'closed' });
+  };
+
+  setAll = () => {
+    this.setState({ estado: 'all' });
+  };
 
   render() {
     const { repository, issues, loading, estado } = this.state;
@@ -86,9 +91,9 @@ export default class Repository extends Component {
           <p>{repository.description}</p>
         </Owner>
 
-        <OpenButton onSubmit={this.handleSubmit}>Open</OpenButton>
-        <ClosedButton>Closed</ClosedButton>
-        <AllButton>All</AllButton>
+        <OpenButton onClick={this.setOpen}>Open</OpenButton>
+        <ClosedButton onClick={this.setClosed}>Closed</ClosedButton>
+        <AllButton onClick={this.setAll}>All</AllButton>
         {/* <input className="Open" type="button" value="Open" />
         <input className="Closed" type="button" value="Closed" />
         <input className="All" type="button" value="All" /> */}
@@ -106,7 +111,7 @@ export default class Repository extends Component {
                   ))}
                 </strong>
                 <p>{issue.user.login}</p>
-                <p>{issue.state}</p>
+                <p>{estado}</p>
               </div>
             </li>
           ))}
