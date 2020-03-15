@@ -28,13 +28,13 @@ export default class Repository extends Component {
     repository: {},
     issues: [],
     loading: true,
-    estado: 'closed',
-    page: 2,
+    estado: 'open',
+    page: 1,
   };
 
   async componentDidMount() {
     const { match } = this.props;
-    const { estado } = this.state;
+    const { estado, page } = this.state;
 
     const repoName = decodeURIComponent(match.params.repository);
 
@@ -43,7 +43,8 @@ export default class Repository extends Component {
       api.get(`/repos/${repoName}/issues?page={page}`, {
         params: {
           state: estado,
-          per_page: 5,
+          per_page: 2,
+          page,
         },
       }),
     ]);
@@ -56,10 +57,17 @@ export default class Repository extends Component {
   }
 
   // //  change pages /////
-  prevPage = () => { };
+  prevPage = () => {
+    const { page } = this.state;
+    if (page === 1) return;
+    this.setState({ page: page - 1 });
+    console.log(page);
+  };
 
   nextPage = () => {
-    alert('oi');
+    const { page } = this.state;
+    this.setState({ page: page + 1 });
+    console.log(page);
   };
 
   // /// set state (open/closed/all) /////
