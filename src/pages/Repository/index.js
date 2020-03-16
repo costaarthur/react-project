@@ -28,13 +28,15 @@ export default class Repository extends Component {
     repository: {},
     issues: [],
     loading: true,
-    estado: 'open',
+    estado: 'closed',
     page: 1,
+    per_page: 3,
   };
 
+  // Executado assim que o componente aparece em tela
   async componentDidMount() {
     const { match } = this.props;
-    const { estado, page } = this.state;
+    const { estado, page, per_page } = this.state;
 
     const repoName = decodeURIComponent(match.params.repository);
 
@@ -43,7 +45,7 @@ export default class Repository extends Component {
       api.get(`/repos/${repoName}/issues?page={page}`, {
         params: {
           state: estado,
-          per_page: 2,
+          per_page,
           page,
         },
       }),
@@ -56,23 +58,27 @@ export default class Repository extends Component {
     });
   }
 
+  // Executado sempre que houver alterações nas props ou estado
+  componentDidUpdate() { }
+
   // //  change pages /////
   prevPage = () => {
     const { page } = this.state;
     if (page === 1) return;
     this.setState({ page: page - 1 });
-    console.log(page);
+    console.log(this.state.page);
   };
 
   nextPage = () => {
     const { page } = this.state;
-    this.setState({ page: page + 1 });
+    this.setState({ page: +1 });
     console.log(page);
   };
 
   // /// set state (open/closed/all) /////
   setOpen = () => {
     this.setState({ estado: 'open' });
+    console.log('oi');
   };
 
   setClosed = () => {
@@ -99,7 +105,9 @@ export default class Repository extends Component {
           <p>{repository.description}</p>
         </Owner>
 
-        <OpenButton onClick={this.setOpen}>Open</OpenButton>
+        <OpenButton onClick={() => this.setOpen} type="button">
+          Open
+        </OpenButton>
         <ClosedButton onClick={this.setClosed}>Closed</ClosedButton>
         <AllButton onClick={this.setAll}>All</AllButton>
         {/* <input className="Open" type="button" value="Open" />
