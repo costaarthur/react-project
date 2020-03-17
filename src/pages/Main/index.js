@@ -5,16 +5,19 @@ import { Link } from 'react-router-dom';
 import api from '../../services/api';
 
 import Container from '../../components/Container';
-import { Form, SubmitButton, List, ShowError, Pages } from './styles';
+import { Form, SubmitButton, List, ShowError } from './styles';
 
 export default class Main extends Component {
-  state = {
-    newRepo: '',
-    repositories: [],
-    loading: false,
-    error: null,
-    errorName: '',
-  };
+  constructor() {
+    super();
+    this.state = {
+      newRepo: '',
+      repositories: [],
+      loading: false,
+      error: null,
+      errorName: '',
+    };
+  }
 
   // Carregar os dados do localStorage
   componentDidMount() {
@@ -63,15 +66,14 @@ export default class Main extends Component {
         newRepo: '',
       });
     } catch (error) {
-      this.setState({ error: true, errorName: error });
       console.log(this.state.errorName);
       // console.log(error.response.status);
-      if (error.response.status === 404) {
-        alert('Repositório inexistente.');
-        this.setState({ errorName: 'Repositório inexistente.' });
+      if (error?.response?.status === 404) {
+        this.setState({ error: true, errorName: 'Repositório inexistente' });
+      } else if (error?.response?.status === 403) {
+        this.setState({ error: true, errorName: 'Acesso negado' });
       } else {
-        // alert(`errou: ${error}`);
-        this.setState({ errorName: 'Teste' });
+        this.setState({ error: true, errorName: error });
       }
     } finally {
       this.setState({ loading: false });
@@ -105,7 +107,7 @@ export default class Main extends Component {
         </Form>
         <ShowError Error={error}>
           {error === null ? 'Errorzão:' : console.log(this.state.errorName)}
-          {/* {this.state.errorName} */}
+          {this.state.errorName}
         </ShowError>
         <List>
           {repositories.map(repository => (

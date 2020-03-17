@@ -30,36 +30,52 @@ export default class Repository extends Component {
     loading: true,
     estado: 'closed',
     page: 1,
-    per_page: 3,
+    perPage: 4,
   };
 
   // Executado assim que o componente aparece em tela
   async componentDidMount() {
+    this.getRepositories();
+  }
+
+  // Executado sempre que houver alterações nas props ou estado
+  componentDidUpdate(_, prevState) {
+    const { estado, page } = this.state;
+    if (prevState.estado !== estado || prevState.page !== page) {
+      this.getRepositories();
+    }
+  }
+
+  async getRepositories() {
     const { match } = this.props;
-    const { estado, page, per_page } = this.state;
+    const { estado, page, perPage } = this.state;
 
     const repoName = decodeURIComponent(match.params.repository);
 
     const [repository, issues] = await Promise.all([
       api.get(`/repos/${repoName}`),
-      api.get(`/repos/${repoName}/issues?page={page}`, {
+      api.get(`/repos/${repoName}/issues?page=${page}`, {
         params: {
           state: estado,
-          per_page,
+          per_page: perPage,
           page,
         },
       }),
     ]);
-
-    this.setState({
-      repository: repository.data,
-      issues: issues.data,
-      loading: false,
-    });
+    if (issues.data.length > 0) {
+      this.setState({
+        repository: repository.data,
+        issues: issues.data,
+        loading: false,
+        estado,
+        page,
+        perPage,
+      });
+    }
+    // else {
+    //   this.setState({ page: page - 1 });
+    // }
   }
-
-  // Executado sempre que houver alterações nas props ou estado
-  componentDidUpdate() { }
 
   // //  change pages /////
   prevPage = () => {
@@ -71,22 +87,12 @@ export default class Repository extends Component {
 
   nextPage = () => {
     const { page } = this.state;
-    this.setState({ page: +1 });
-    console.log(page);
+    this.setState({ page: page + 1 });
   };
 
   // /// set state (open/closed/all) /////
-  setOpen = () => {
-    this.setState({ estado: 'open' });
-    console.log('oi');
-  };
-
-  setClosed = () => {
-    this.setState({ estado: 'closed' });
-  };
-
-  setAll = () => {
-    this.setState({ estado: 'all' });
+  setEstado = estado => {
+    this.setState({ estado });
   };
 
   render() {
@@ -105,11 +111,11 @@ export default class Repository extends Component {
           <p>{repository.description}</p>
         </Owner>
 
-        <OpenButton onClick={() => this.setOpen} type="button">
-          Open
-        </OpenButton>
-        <ClosedButton onClick={this.setClosed}>Closed</ClosedButton>
-        <AllButton onClick={this.setAll}>All</AllButton>
+        <OpenButton onClick={() => this.setEstado('open')}>Open</OpenButton>
+        <ClosedButton onClick={() => this.setEstado('closed')}>
+          Closed
+        </ClosedButton>
+        <AllButton onClick={() => this.setEstado('all')}>All</AllButton>
         {/* <input className="Open" type="button" value="Open" />
         <input className="Closed" type="button" value="Closed" />
         <input className="All" type="button" value="All" /> */}
