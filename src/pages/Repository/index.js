@@ -118,14 +118,9 @@ export default class Repository extends Component {
           Closed
         </ClosedButton>
         <AllButton onClick={() => this.setEstado('all')}>All</AllButton>
-        {/* <input className="Open" type="button" value="Open" />
-        <input className="Closed" type="button" value="Closed" />
-        <input className="All" type="button" value="All" /> */}
-        {/* <SubmitButton loading={loading} /> */}
         <IssueList>
           {issues.map(issue => (
             <li key={String(issue.id)}>
-              {/* <li>{issue.state: open}</li> */}
               <img src={issue.user.avatar_url} alt={issue.user.login} />
               <div>
                 <strong>
