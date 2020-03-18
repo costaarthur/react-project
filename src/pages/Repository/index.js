@@ -15,23 +15,26 @@ import {
   Pages,
 } from './styles';
 
-export default class Repository extends Component {
-  static propTypes = {
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        repository: PropTypes.string,
-      }),
-    }).isRequired,
-  };
+const propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      repository: PropTypes.string,
+    }),
+  }).isRequired,
+};
 
-  state = {
-    repository: {},
-    issues: [],
-    loading: true,
-    estado: 'closed',
-    page: 1,
-    perPage: 4,
-  };
+export default class Repository extends Component {
+  constructor() {
+    super();
+    this.state = {
+      repository: {},
+      issues: [],
+      loading: true,
+      estado: 'closed',
+      page: 1,
+      perPage: 4,
+    };
+  }
 
   // Executado assim que o componente aparece em tela
   async componentDidMount() {
@@ -82,7 +85,6 @@ export default class Repository extends Component {
     const { page } = this.state;
     if (page === 1) return;
     this.setState({ page: page - 1 });
-    console.log(this.state.page);
   };
 
   nextPage = () => {
@@ -139,10 +141,10 @@ export default class Repository extends Component {
           ))}
         </IssueList>
         <Pages>
-          <button>
+          <button type="submit">
             <FaArrowLeft size={22} onClick={this.prevPage} />
           </button>
-          <button>
+          <button type="submit">
             <FaArrowRight size={22} onClick={this.nextPage} />
           </button>
         </Pages>
@@ -150,3 +152,4 @@ export default class Repository extends Component {
     );
   }
 }
+Repository.propTypes = propTypes;

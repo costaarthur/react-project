@@ -49,11 +49,12 @@ export default class Main extends Component {
     try {
       const { newRepo, repositories } = this.state;
 
-      if (newRepo === '') throw 'Você precisa indicar um repositório';
+      if (newRepo === '')
+        throw new Error('Você precisa indicar um repositório');
 
       const repoExists = repositories.find(r => r.name === newRepo);
 
-      if (repoExists) throw 'Repositório já existe';
+      if (repoExists) throw new Error('Repositório já existe');
 
       const response = await api.get(`/repos/${newRepo}`);
 
@@ -66,14 +67,12 @@ export default class Main extends Component {
         newRepo: '',
       });
     } catch (error) {
-      console.log(this.state.errorName);
-      // console.log(error.response.status);
       if (error?.response?.status === 404) {
         this.setState({ error: true, errorName: 'Repositório inexistente' });
       } else if (error?.response?.status === 403) {
         this.setState({ error: true, errorName: 'Acesso negado' });
       } else {
-        this.setState({ error: true, errorName: error });
+        this.setState({ error: true, errorName: 'Houve um problema' });
       }
     } finally {
       this.setState({ loading: false });
@@ -81,7 +80,7 @@ export default class Main extends Component {
   };
 
   render() {
-    const { newRepo, repositories, loading, error } = this.state;
+    const { newRepo, repositories, loading, error, errorName } = this.state;
 
     return (
       <Container>
@@ -106,8 +105,8 @@ export default class Main extends Component {
           </SubmitButton>
         </Form>
         <ShowError Error={error}>
-          {error === null ? 'Errorzão:' : console.log(this.state.errorName)}
-          {this.state.errorName}
+          {error === null ? '' : 'erro:'}
+          {errorName}
         </ShowError>
         <List>
           {repositories.map(repository => (
